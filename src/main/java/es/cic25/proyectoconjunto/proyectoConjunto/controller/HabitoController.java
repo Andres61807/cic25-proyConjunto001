@@ -26,7 +26,6 @@ public class HabitoController {
 
     @GetMapping("/{id}")
     public Optional<Habito> get(@PathVariable long id) {
-
         Optional<Habito> habito = habitoService.get(id);
 
         return habito;
@@ -42,6 +41,10 @@ public class HabitoController {
 
     @PostMapping
     public Habito create(@RequestBody Habito habito) {
+        if (habito.getId() != 0) {
+            throw new ModificacionSecurityException("Has tratado de modificar mediante creación");
+        }
+
 
         habito = habitoService.create(habito);
 
@@ -50,7 +53,7 @@ public class HabitoController {
 
     @PutMapping
     public void update(@RequestBody Habito habito) {
-
+        habitoService.update(habito);
     }
 
     @DeleteMapping("/{id}")
